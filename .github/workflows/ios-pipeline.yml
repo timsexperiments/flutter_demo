@@ -37,8 +37,11 @@ jobs:
       - name: Install dependencies
         run: flutter pub get
 
-      - name: Setup Fastlane
-        run: cd ios && bundle install
+      - name: Install Ruby Dependencies
+        run: |
+          cd ios
+          rm -f Gemfile.lock
+          bundle install
 
       - name: Setup GCS Credentials
         run: echo '${{ secrets.GCP_CREDENTIALS_JSON }}' > ios/gcp_keys.json
@@ -52,7 +55,7 @@ jobs:
           APP_STORE_CONNECT_API_KEY_KEY: ${{ secrets.APP_STORE_CONNECT_API_KEY_KEY }}
           MATCH_PASSWORD: ${{ secrets.MATCH_PASSWORD }}
           MATCH_GCS_BUCKET: ${{ secrets.MATCH_GCS_BUCKET }}
-          MATCH_GC_KEYS_FILE: 'gcp_keys.json'
+          MATCH_GC_KEYS_FILE: "gcp_keys.json"
           GITHUB_PR_NUMBER: ${{ github.event.pull_request.number }}
           GITHUB_SHA: ${{ github.sha }}
           GITHUB_REF_NAME: ${{ github.ref_name }}
