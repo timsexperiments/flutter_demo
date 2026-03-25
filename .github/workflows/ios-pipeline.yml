@@ -46,6 +46,9 @@ jobs:
       - name: Setup GCS Credentials
         run: echo '${{ secrets.GCP_CREDENTIALS_JSON }}' > ios/gcp_keys.json
 
+      - name: Build Flutter iOS (No Codesign)
+        run: flutter build ios --release --no-codesign
+
       - name: Run Fastlane
         run: cd ios && bundle exec fastlane ${{ env.FASTLANE_LANE }}
         env:
