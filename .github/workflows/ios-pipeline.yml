@@ -23,16 +23,21 @@ jobs:
       - name: Determine Environment and Lane
         id: set_env
         run: |
-          if [[ "\${{ github.event_name }}" == "pull_request" ]]; then
+          if [[ "${{ github.event_name }}" == "pull_request" ]]; then
             echo "APP_ENVIRONMENT=dev" >> $GITHUB_ENV
             echo "FASTLANE_LANE=pr_build" >> $GITHUB_ENV
-          elif [[ "\${{ github.event_name }}" == "push" && "\${{ github.ref_type }}" == "tag" ]]; then
+            echo "BUILD_NAME=0.0.0-pr" >> $GITHUB_ENV
+          elif [[ "${{ github.event_name }}" == "push" && "${{ github.ref_type }}" == "tag" ]]; then
             echo "APP_ENVIRONMENT=prod" >> $GITHUB_ENV
             echo "FASTLANE_LANE=release_prod" >> $GITHUB_ENV
+            TAG_NAME="${{ github.ref_name }}"
+            echo "BUILD_NAME=${TAG_NAME#v}" >> $GITHUB_ENV
           else
             echo "APP_ENVIRONMENT=dev" >> $GITHUB_ENV
             echo "FASTLANE_LANE=beta_dev" >> $GITHUB_ENV
+            echo "BUILD_NAME=1.0.0-beta" >> $GITHUB_ENV
           fi
+          echo "BUILD_NUMBER=${{ github.run_number }}" >> $GITHUB_ENV
 
       - name: Set up Flutter
         uses: subosito/flutter-action@v2
@@ -52,7 +57,7 @@ jobs:
         run: echo '${{ secrets.GCP_CREDENTIALS_JSON }}' > ios/gcp_keys.json
 
       - name: Build Flutter iOS (No Codesign)
-        run: flutter build ios --release --no-codesign
+        run: flutter build ios --release --no-codesign --build-name=${{ env.BUILD_NAME }} --build-number=${{ env.BUILD_NUMBER }}
 
       - name: Run Fastlane
         run: cd ios && bundle exec fastlane ${{ env.FASTLANE_LANE }}
