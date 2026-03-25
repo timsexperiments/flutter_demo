@@ -1,0 +1,4 @@
+storage_mode("google_cloud")
+
+google_cloud_bucket_name(ENV["MATCH_GCS_BUCKET"])
+google_cloud_keys_file(ENV["MATCH_GC_KEYS_FILE"])

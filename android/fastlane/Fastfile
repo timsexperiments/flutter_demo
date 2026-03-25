@@ -1,0 +1,32 @@
+default_platform(:android)
+
+platform :android do
+  desc "Push a new build to Android Internal App Sharing for PRs"
+  lane :pr_build do
+    upload_to_play_store_internal_app_sharing(
+      json_key_data: ENV["PLAY_STORE_JSON_KEY_DATA"],
+      package_name: ENV["ANDROID_PACKAGE_NAME"],
+      aab: "../build/app/outputs/bundle/release/app-release.aab"
+    )
+  end
+
+  desc "Push a new build to Internal Testing for Main branch"
+  lane :beta_dev do
+    upload_to_play_store(
+      track: "internal",
+      json_key_data: ENV["PLAY_STORE_JSON_KEY_DATA"],
+      package_name: ENV["ANDROID_PACKAGE_NAME"],
+      aab: "../build/app/outputs/bundle/release/app-release.aab"
+    )
+  end
+
+  desc "Push a new release to Production"
+  lane :release_prod do
+    upload_to_play_store(
+      track: "production",
+      json_key_data: ENV["PLAY_STORE_JSON_KEY_DATA"],
+      package_name: ENV["ANDROID_PACKAGE_NAME"],
+      aab: "../build/app/outputs/bundle/release/app-release.aab"
+    )
+  end
+end
