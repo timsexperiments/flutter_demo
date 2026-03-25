@@ -31,7 +31,12 @@ platform :ios do
   lane :pr_build do
     setup_ci
     match(type: "appstore", readonly: true)
-    update_code_signing_settings(use_automatic_signing: false, path: "Runner.xcodeproj")
+    update_code_signing_settings(
+      use_automatic_signing: false, 
+      path: "Runner.xcodeproj",
+      team_id: "9DS32XJMBD",
+      profile_name: "match AppStore com.timothyaltemus.placeholder"
+    )
 
     build_app(
       scheme: "Runner",
@@ -50,7 +55,12 @@ platform :ios do
   lane :beta_dev do
     setup_ci
     match(type: "appstore", readonly: true)
-    update_code_signing_settings(use_automatic_signing: false, path: "Runner.xcodeproj")
+    update_code_signing_settings(
+      use_automatic_signing: false, 
+      path: "Runner.xcodeproj",
+      team_id: "9DS32XJMBD",
+      profile_name: "match AppStore com.timothyaltemus.placeholder"
+    )
     
     build_app(
       scheme: "Runner",
@@ -68,7 +78,12 @@ platform :ios do
   lane :release_prod do
     setup_ci
     match(type: "appstore", readonly: true)
-    update_code_signing_settings(use_automatic_signing: false, path: "Runner.xcodeproj")
+    update_code_signing_settings(
+      use_automatic_signing: false, 
+      path: "Runner.xcodeproj",
+      team_id: "9DS32XJMBD",
+      profile_name: "match AppStore com.timothyaltemus.placeholder"
+    )
     
     build_app(
       scheme: "Runner",
