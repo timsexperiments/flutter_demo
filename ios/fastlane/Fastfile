@@ -44,10 +44,8 @@ platform :ios do
       export_method: "app-store"
     )
 
-    # Upload to a specific dev group
     upload_to_testflight(
       skip_waiting_for_build_processing: true,
-      groups: ["PR Reviewers"],
       changelog: "PR Build \#{ENV['GITHUB_PR_NUMBER']} - \#{ENV['GITHUB_SHA']}"
     )
   end
@@ -71,7 +69,6 @@ platform :ios do
 
     upload_to_testflight(
       skip_waiting_for_build_processing: true,
-      groups: ["Internal Testers"],
       changelog: "Main Branch Build - \#{ENV['GITHUB_SHA']}"
     )
   end
