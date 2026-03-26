@@ -1,0 +1,2 @@
+app_identifier("com.timothyaltemus.placeholder") # The bundle identifier of your app
+team_id("9DS32XJMBD") # Identify your 10-character Developer Portal Team ID
